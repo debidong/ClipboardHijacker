@@ -1,6 +1,5 @@
 # Clipboard Hijacking Trojan
 
----
 
 ## Project Summary
 
@@ -17,7 +16,6 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
 3. **Persistence Mechanisms:**
    - Utilizes various persistence technologies, requiring behavioral analysis for effective removal.
 
----
 
 ## Project Structure
 
@@ -54,7 +52,6 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
   - Installs the payload as a service for persistence.
   - Hides the payload file.
 
----
 
 ## Build and Run Instructions
 
@@ -69,7 +66,6 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
 3. **Run:**
    - Execute the compiled main executable file.
 
----
 
 ## Disclaimer
 
