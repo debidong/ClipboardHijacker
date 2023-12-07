@@ -1,7 +1,7 @@
 # Clipboard Hijacking Trojan
 
 
-## Project Summary
+## 1 Project Summary
 
 The Clipboard Hijacking Trojan project focuses on implementing a Trojan that utilizes anti-analysis techniques for clipboard hijacking. This Trojan monitors clipboard activities, replacing specific content with malicious payloads. It employs anti-sandbox, anti-virtualization, and anti-debugging techniques to enhance concealment. Additionally, the Trojan includes persistence mechanisms to maintain a long-term threat presence.
 
@@ -17,9 +17,9 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
    - Utilizes various persistence technologies, requiring behavioral analysis for effective removal.
 
 
-## Project Structure
+## 2 Project Structure
 
-### 1. Clipboard Monitoring Payload
+### 2.1 Clipboard Monitoring Payload
 
 - **Features:**
   - Monitors clipboard content.
@@ -33,7 +33,7 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
   - Periodically checks clipboard content, replacing it when conditions are met.
   - Ensures concealment and persistence.
 
-### 2. Trojan Main Body
+### 2.2 Trojan Main Body
 
 - **Features:**
   - Detects sandbox, virtualization, and debugging environments.
@@ -53,7 +53,7 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
   - Hides the payload file.
 
 
-## Build and Run Instructions
+## 3 Build and Run Instructions
 
 1. **Requirements:**
    - C/C++ compiler (e.g., Clion).
@@ -67,6 +67,6 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
    - Execute the compiled main executable file.
 
 
-## Disclaimer
+# Disclaimer
 
 This tool is for educational and research purposes only. Its use for illegal activities is strictly prohibited. The developers are not responsible for any legal consequences resulting from misuse.
