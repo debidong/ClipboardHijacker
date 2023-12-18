@@ -99,11 +99,8 @@ BOOL enumWindows() {
 
     // Enumerate top-level windows
     if (EnumWindows(EnumWindowsProc, (LPARAM)&windowCount)) {
-//        printf("Number of top-level windows: %d\n", windowCount);
-
         // Check if the count is less than 12
         if (windowCount < 12) {
-            // Additional checks for specific windows (replace with your own criteria)
             if (FindWindowA("MFC", nullptr) != nullptr) {
                 // Detected MFC window, consider it as a virtual machine
                 return 1;
@@ -113,11 +110,7 @@ BOOL enumWindows() {
             TerminateProcess(GetCurrentProcess(), 0);
             return 1;
         }
-    } else {
-        // Handle error
-        printf("Error enumerating windows.\n");
     }
-
     return 0;  // Not in a virtual machine
 }
 
@@ -131,10 +124,8 @@ BOOL checkModules() {
 
     for (int i = 0; i < sizeof(sandboxDLLs) / sizeof(sandboxDLLs[0]); i++) {
         HMODULE hModule = GetModuleHandleA(sandboxDLLs[i]);
-
         if (hModule != nullptr) {
-            // Detected sandbox-related DLL, consider it as a sandbox environment
-            return 1;
+            return 1; // Detected sandbox-related DLL, consider it as a sandbox environment
         }
     }
     return 0;  // Not in a sandbox environment
@@ -190,6 +181,7 @@ BOOL checkNtGlobalFlag () {
  * Establishes a connection to the Service Control Manager on the computer, opens the specified Service Control Manager
  * database, and uses EnumServicesStatusA to enumerate the services in the Service Control Manager database.
  * */
+
 BOOL isVirtualizationServicePresent() {
     const char* virtualizationServiceNames[] = {
             "VMwareTools",
@@ -206,12 +198,9 @@ BOOL isVirtualizationServicePresent() {
             "vmicheartbeat",     // Hyper-V Heartbeat Service
     };
 
-
     SC_HANDLE scmHandle = OpenSCManager(nullptr, nullptr, SC_MANAGER_ENUMERATE_SERVICE);
 
     if (scmHandle == nullptr) {
-        // Handle error opening SCM
-        printf("Error opening SCM.\n");
         return -1;
     }
 
@@ -221,29 +210,26 @@ BOOL isVirtualizationServicePresent() {
     // Get the required buffer size
     EnumServicesStatusA(scmHandle, SERVICE_WIN32, SERVICE_STATE_ALL, nullptr, 0, &bufferSize, &serviceCount, nullptr);
 
-    if (GetLastError() != ERROR_MORE_DATA) {
-        // Handle error getting buffer size
-        CloseServiceHandle(scmHandle);
-        printf("Error getting buffer size.\n");
-        return -1;
-    }
-
     // Allocate buffer for service information
     ENUM_SERVICE_STATUSA* serviceInfo = (ENUM_SERVICE_STATUSA*)malloc(bufferSize);
 
     if (serviceInfo == nullptr) {
-        // Handle error, unable to allocate memory
         CloseServiceHandle(scmHandle);
-        printf("Error allocating memory.\n");
         return -1;
     }
 
     // Enumerate services
-    if (!EnumServicesStatusA(scmHandle, SERVICE_WIN32, SERVICE_STATE_ALL, serviceInfo, bufferSize, &bufferSize, &serviceCount, nullptr)) {
-        // Handle error enumerating services
+    if (!EnumServicesStatusA(
+            scmHandle,
+            SERVICE_WIN32,
+            SERVICE_STATE_ALL,
+            serviceInfo,
+            bufferSize,
+            &bufferSize,
+            &serviceCount,
+            nullptr)) {
         free(serviceInfo);
         CloseServiceHandle(scmHandle);
-        printf("Error enumerating services.\n");
         return -1;
     }
 
@@ -263,7 +249,6 @@ BOOL isVirtualizationServicePresent() {
     CloseServiceHandle(scmHandle);
     return 0;  // No virtualization-related service detected
 }
-
 
 /*
  * Uses GetUserNameA to verify the username associated with sandbox software and raises an exception if detected.
@@ -292,12 +277,9 @@ BOOL checkSandboxUsername() {
                 return true;
             }
         }
-
-        // No sandbox username detected
-        return false;
+        return false; // No sandbox username detected
     } else {
         // Handle error getting username
-        printf("Error getting username.\n");
         return false;
     }
 }

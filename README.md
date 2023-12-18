@@ -26,7 +26,7 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
   - Replaces specific content with a predefined address if it matches the cryptocurrency wallet address pattern.
 
 - **Files:**
-  - `payload.cpp`: Contains the binary constant of the compiled payload program.
+  - `payload.cpp`: Implements clipboard hijacking.
 
 - **Implementation:**
   - Uses C++ and WinAPI to create a hidden window for clipboard monitoring.
@@ -43,8 +43,8 @@ The Clipboard Hijacking Trojan demonstrates the following capabilities:
 - **Files:**
   - `main.cpp`: Controls the operation flow.
   - `anti.cpp`: Implements anti-analysis techniques.
-  - `payload.cpp`: Declares the binary constant.
-  - `dropPayload.cpp`: Writes the payload to the user's startup directory.
+  - `payload.cpp`: Contains the binary constant of the compiled payload program.
+  - `dropPayload.cpp`: Writes the payload to the user's startup directory, modifies registry values, etc.
   - `createService.cpp`: Installs the service.
 
 - **Implementation:**

@@ -7,9 +7,7 @@
 #include "anti.h"
 
 int main(int argc, char** argv) {
-    /*
-     * Anti sandbox, anti VM and anti debugging.
-     * */
+    // Anti sandbox, anti VM and anti debugging.
     if (
             checkReg() ||
             enumWindows() ||
